@@ -22,7 +22,7 @@ public class DBConn {
     }
 
     public void insertRow(String url) {
-        try (PreparedStatement pstmt = connection.prepareStatement("INSERT INTO links (url) VALUES (?)")) {
+        try (PreparedStatement pstmt = connection.prepareStatement("INSERT OR IGNORE INTO links (url) VALUES (?)")) {
             pstmt.setString(1, url);
             pstmt.executeUpdate();
         } catch (SQLException e) {

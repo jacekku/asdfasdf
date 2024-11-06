@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -30,6 +31,7 @@ public class CrawlerThread implements Runnable {
 
             Integer amount = visitedLinks.getOrDefault(url, 0);
             if (amount == 0) {
+                System.out.println("pobieram: " + url);
                 visitedLinks.put(url, 1);
                 try {
                     Document doc = Jsoup.connect(url).get();
@@ -47,8 +49,7 @@ public class CrawlerThread implements Runnable {
                     e.printStackTrace();
                 }
             }
-
-            visitedLinks.remove(url);
+            dbConn.incrementSeen(url);
         }
     }
 }

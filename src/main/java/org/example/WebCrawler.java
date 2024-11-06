@@ -5,9 +5,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WebCrawler {
-    private static final int MAX_THREADS = 5;
+    private static final int MAX_THREADS = 1;
     public static void main(String... args) {
-        String url = "";
+        String url = "https://brahmamuhurta.jacekku.net/";
         if (args.length == 1) {
             url = args[0];
         }
