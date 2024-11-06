@@ -5,10 +5,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WebCrawler {
-    private static final int MAX_THREADS = 5; // Define maximum number of threads
-
+    private static final int MAX_THREADS = 5;
     public static void main(String... args) {
-        String url = "https://brahmamuhurta.jacekku.net/";
+        String url = "";
         if (args.length == 1) {
             url = args[0];
         }
@@ -22,11 +21,9 @@ public class WebCrawler {
         DBConn dbConn = new DBConn();
         dbConn.connect();
 
-        // Create tables if not exist
         dbConn.createTables();
         dbConn.insertRow(url);
 
-        // Start the crawling process
         for (int i = 0; i < MAX_THREADS; i++) {
             executor.submit(new CrawlerThread(dbConn, links));
         }

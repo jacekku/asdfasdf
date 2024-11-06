@@ -7,7 +7,7 @@ public class DBConn {
 
     public void connect() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:costamteges.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:linki.db");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class DBConn {
         try (PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM links WHERE url = ?")) {
             pstmt.setString(1, url);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // Returns true if URL exists
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
