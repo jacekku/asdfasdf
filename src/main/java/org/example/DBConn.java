@@ -50,6 +50,21 @@ public class DBConn {
         }
     }
 
+    public String getLink() {
+        String link = null;
+        String query = "SELECT url FROM links WHERE seen = 0";
+
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                link = rs.getString("url");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return link;
+    }
+
     public void disconnect() {
         try {
             if (connection != null) connection.close();

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,15 +18,18 @@ public class WebCrawler {
 
     public static void startCrawler(String url) {
         ExecutorService executor = Executors.newFixedThreadPool(MAX_THREADS);
+        ConcurrentHashMap<String, Integer> links = new ConcurrentHashMap<>();
         DBConn dbConn = new DBConn();
         dbConn.connect();
 
         // Create tables if not exist
         dbConn.createTables();
+        dbConn.insertRow(url);
 
         // Start the crawling process
-        executor.submit(new CrawlerThread(url, dbConn));
-
+        for (int i = 0; i < MAX_THREADS; i++) {
+            executor.submit(new CrawlerThread(dbConn, links));
+        }
         executor.shutdown();
     }
 }
